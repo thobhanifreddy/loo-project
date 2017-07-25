@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<title>Loo Staus</title>
+
+	</head>
+
+	<body>
+
+	    <div class="btn-left">
+
+	        <button class="btn" style = "background-color: {{color}};"">{{status}}</button>
+
+	    </div>
+
+	    <div class="time-right">
+
+	        <h2>	
+	        	time: {{time}} sec.
+	        </h2>
+
+	    </div>
+
+	    <div class="centered-div">
+		    <h1>
+		    	<quote>{{ quote }}</quote>
+		    </h1>
+	    </div>
+
+	</body>
+
+	<script>
+		
+		setTimeout(function() {
+  			location.reload();
+		}, 3000);
+
+	</script>
+
+	<style type="text/css">
+   
+		.btn {
+		  border: none;
+		  color: white;
+		  padding: 14px 28px;
+		  font-size: 16px;
+		  cursor: pointer;
+		}
+		h2{
+		  display:inline;
+		  padding-left:30%;
+		}
+		.btn-left{
+		    position: fixed;
+		    top:35px;
+		    left:35px;
+		}
+		.time-right{
+		    position: fixed;
+		    top:35px;
+		    width: 300px;
+		    right:35px;
+		}
+		.centered-div{
+		    display: table-cell;
+		    width: 100%;
+		    text-align: center;
+		    vertical-align: middle;
+		}
+
+		html{
+		    display: block;
+		    height: 100%
+		}
+
+		body{
+		  display: table;
+		  height: 100%;
+		  width: 100%;
+		  margin: auto;
+
+		}
+	</style>
+</html>
+
+
