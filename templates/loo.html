@@ -7,26 +7,31 @@
 
 	</head>
 
-	<body>
+	<body onload="hide()" background="https://source.unsplash.com/random/1600x900">
+
 
 	    <div class="btn-left">
 
-	        <button class="btn" style = "background-color: {{color}};"">{{status}}</button>
+	        <button class="btn" style = "background-color: {{color}};"">{{ status }}</button>
 
 	    </div>
 
-	    <div class="time-right">
+	   
+		    <div class="time-right shadow" id = "timer" style="width:25%">
 
-	        <h2>	
-	        	time: {{time}} sec.
-	        </h2>
+		        <h2>
+		        		time: {{ timer }} min/s
+		        </h2>
 
-	    </div>
+		    </div>
+		
 
 	    <div class="centered-div">
-		    <h1>
-		    	<quote>{{ quote }}</quote>
-		    </h1>
+		    <div class = "shadow" >
+		    	<h1>
+		    	<quote >{{ quote }}</quote>
+		    	</h1>
+		    </div>
 	    </div>
 
 	</body>
@@ -35,7 +40,18 @@
 		
 		setTimeout(function() {
   			location.reload();
-		}, 3000);
+		}, 10000);
+
+
+		function hide() {
+		    var x = document.getElementById('timer');
+
+		    if( parseInt({{ timer }}) == 0){
+		        x.style.display = 'none';
+		    }
+		}
+
+		
 
 	</script>
 
@@ -81,6 +97,13 @@
 		  width: 100%;
 		  margin: auto;
 
+		}
+
+		.shadow{
+			background: rgba(211, 211, 211, 0.5); 
+			width:50%; 
+			margin: 0 auto; 
+			box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 		}
 	</style>
 </html>

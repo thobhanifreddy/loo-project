@@ -6,48 +6,61 @@ import time
 from datetime import datetime
 import random
 
+import serial
 
-IR_GPIO = 0               # The ir GPIO   pinout ->"D6"
+
+IR_GPIO = 0               # The ir GPIO   pinout ->"D7"
 
 ir = mraa.Gpio(IR_GPIO)   # Get the ir pin object
 ir.dir(mraa.DIR_IN)           # Set the direction as input
 
 app = Flask(__name__)
 
-time = 0
-flag = 0
-
 end_time = 0
 start_time = 0
 
-quotes = ["How long a minute is depends on which side of the bathroom door you are!", 
+quotes = [
+		"How long a minute is depends on which side of the bathroom door you are!", 
 		"Do not RUSH, remember to FLUSH!", 
 		"What happens in the bathroom remains in the bathroom",
-		"Don't WORRY. \n Don't HURRY.\n Do your BEST.\n And FLUSH \n the REST",
+		"Don't WORRY...Don't HURRY...Do your BEST...And FLUSH...the REST",
 		"Boys aim well to keep bathroom clean!",
-		"Hope everything comes out!"
+		"Hope everything comes out!",
+		"Be a sweetie...Close the seatie !",
+		"GENTLEMEN: Your aim will help...stand closer; it's shorter than you think.",
+		"Reading Room - Appointment Needed!!",
+		"It matters not how long u stay,just flush before you go away.",
+		"If it is yellow, let it mellow. If it is brown flush it down.",
+		"SHIT HAPPENS",
+		"Ready...Aim...Fire",
+		"Shit is about to go down!!",
+		"You never know what you have until it's gone.",
+		"Aim like a JEDI not like a STROMTROOPER",
+		"Some goes to SIT and THINK...others just to SHIT and STINK",
+		"Diapers were so much better...",
+		"PLEASE...No selfies in the toilet",
+		"Let it rain",
+		"Don't leave without givng 100%",
+		"Toilet camera is only for research use only",
 		]
+
 
 @app.route('/status')
 def loo():
 
 	
-	global end_time, start_time, flag, quotes
+	global end_time, start_time, flag, quotes 
+	
 	state = ir.read()
+	print(state)
 
+	with serial.Serial("/dev/ttylS0", 57600, timeout = 1) as ser:
+		timer = ser.readline()
+
+	print(timer)
+	timer = timer / 60
 	quote = random.choice(quotes)
 
-	if flag == 0 and state == 0:					#flag = 0 and red
-		start_time = datetime.now()
-		flag = 1
-
-	if flag == 1 and state == 1:					#flag = 1 and green 
-		end_time = datetime.now()
-		
-		if end_time != 0 and start_time != 0:
-			global time 
-			time += (end_time - start_time).seconds
-			flag = 0
 
 	if state == 0:
 		color = "red";
@@ -58,6 +71,6 @@ def loo():
 		status = "Available"	
 		
 	
-	return render_template('loo.html', color = color, time = time, unit = unit, status = status, quote = quote) 
+	return render_template('loo.html', color = color, status = status, quote = quote, timer = timer) 
 
 app.run(host='0.0.0.0', port= 8090)
