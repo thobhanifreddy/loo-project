@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask-socketio import socketIO, send
 
 import mraa 
 import time
@@ -15,6 +16,8 @@ ir = mraa.Gpio(IR_GPIO)   # Get the ir pin object
 ir.dir(mraa.DIR_IN)           # Set the direction as input
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'mysecret'
+socketio = socketIO(app)
 
 end_time = 0
 start_time = 0
@@ -42,11 +45,9 @@ quotes = [
 		"Let it rain",
 		"Don't leave without givng 100%",
 		"Toilet camera is only for research use only",
-		"Smile you would be loosing weight",
-		"No job is finished until paper work is done"
 		]
 
-
+@socketio.on('status')
 @app.route('/status')
 def loo():
 
@@ -75,4 +76,6 @@ def loo():
 	
 	return render_template('loo.html', color = color, status = status, quote = quote, timer = timer) 
 
-app.run(host='0.0.0.0', port= 8090)
+if __name__ = 'main':
+	socketio.run(app)
+	# app.run(host='0.0.0.0', port= 8090)
