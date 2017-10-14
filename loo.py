@@ -56,11 +56,11 @@ def loo():
 	state = ir.read()
 	print(state)
 
-	with serial.Serial("/dev/ttylS0", 57600, timeout = 1) as ser:
+	with serial.Serial("/dev/ttyS0", 57600, timeout = 1) as ser:
 		timer = ser.readline()
 
 	print(timer)
-	timer = timer / 60
+	timer = int(timer) / 60
 	quote = random.choice(quotes)
 
 
